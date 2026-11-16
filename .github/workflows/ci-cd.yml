@@ -41,14 +41,9 @@ jobs:
           push: true
           tags: jayatheertha276/my-app:latest
 
-      - name: Deploy to Production Server
-        uses: appleboy/ssh-action@master
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v4
         with:
-          host: ${{ secrets.PROD_SERVER_IP }}
-          username: ${{ secrets.PROD_SSH_USER }}
-          key: ${{ secrets.PROD_SSH_KEY }}
-          script: |
-            docker pull jayatheertha276/my-app:latest
-            docker stop my-app || true
-            docker rm my-app || true
-            docker run -d --name my-app -p 80:3000 jayatheertha276/my-app:latest
+          context: .
+          push: true
+          tags: jayatheertha276/my-app:latest
